@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import com.exemplo.curso.entidades.enumeracoes.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
@@ -17,16 +18,18 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "TabPedidos")
 public class Pedido implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
 	private LocalDateTime dataPedido;
-	
+
+	private Integer statusPedido;
+
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
 	private Usuario cliente;
@@ -34,10 +37,11 @@ public class Pedido implements Serializable {
 	public Pedido() {
 	}
 
-	public Pedido(Long id, LocalDateTime dataPedido, Usuario cliente) {
+	public Pedido(Long id, LocalDateTime dataPedido, StatusPedido statusPedido, Usuario cliente) {
 		super();
 		this.id = id;
 		this.dataPedido = dataPedido;
+		setStatusPedido(statusPedido);
 		this.cliente = cliente;
 	}
 
@@ -55,6 +59,17 @@ public class Pedido implements Serializable {
 
 	public void setDataPedido(LocalDateTime dataPedido) {
 		this.dataPedido = dataPedido;
+	}
+
+	public StatusPedido getStatusPedido() {
+		return StatusPedido.valueOf(statusPedido);
+	}
+
+	public void setStatusPedido(StatusPedido statusPedido) {
+		if (statusPedido != null) {
+		 	this.statusPedido = statusPedido.getCodigo();
+		}
+		
 	}
 
 	public Usuario getCliente() {
