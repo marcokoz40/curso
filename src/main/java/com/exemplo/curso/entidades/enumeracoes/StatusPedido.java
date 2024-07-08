@@ -25,6 +25,6 @@ public enum StatusPedido {
 			}
 		}
 		throw new IllegalArgumentException("Codigo inválido");
-	}
+	} 
 
 }
